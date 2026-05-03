@@ -1,13 +1,11 @@
 ![Coxa Banner](docs/coxa-banner-dark.png)
 
-# 🐶 COXA
+# COXA (Care Orchestration & e**X**perience for Animals)
 
 ![Go](https://img.shields.io/badge/Go-1.22-blue)  
 ![Kafka](https://img.shields.io/badge/Kafka-Event%20Streaming-black)  
 ![Architecture](https://img.shields.io/badge/Architecture-EDA%20%2B%20Hexagonal-green)  
 ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
-
-**Care Orchestration & eXperience for Animals**
 
 COXA is an event-driven system designed to manage pet health through asynchronous events, scheduling, and intelligent notifications.
 
