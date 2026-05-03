@@ -1,4 +1,4 @@
-![Coxa Banner](docs/coxa-banner.png)
+![Coxa Banner](docs/coxa-banner-dark.png.png)
 
 # 🐶 COXA
 
