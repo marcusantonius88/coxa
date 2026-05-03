@@ -1,3 +1,5 @@
+![Coxa Banner](docs/coxa-banner.png)
+
 # 🐶 COXA
 
 ![Go](https://img.shields.io/badge/Go-1.22-blue)  
@@ -286,7 +288,7 @@ COXA includes a full observability stack using Prometheus and Grafana.
 
 ```mermaid
 graph TD
-    A[Services] --> B[/metrics endpoint]
+    A[Services] --> B["/metrics endpoint"]
     B --> C[Prometheus]
     C --> D[Grafana Dashboard]
 ```
