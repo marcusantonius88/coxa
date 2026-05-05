@@ -1,0 +1,61 @@
+# Golang
+bin/
+dist/
+*.out
+*.exe
+
+# Frontend
+node_modules/
+dist/
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Database
+*.db
+*.sqlite
+
+# Logs
+*.log
+logs/
+
+# Docker
+.dockerignore
+
+# Markdown (except README)
+*.md
+!README.md
+
+# System Files (Windows/WSL)
+*:Zone.Identifier
+*.Zone.Identifier
+Thumbs.db
+Desktop.ini
+
+# Temporary Files
+*.tmp
+*.bak
+*.orig
+
+# IDE Workspaces
+*.code-workspace
+
+# Build & Coverage
+coverage/
+.nyc_output/
+
+# Environment Specific
+.env.production.local
+.env.test.local

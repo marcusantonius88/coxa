@@ -1,0 +1,238 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: coxa-postgres
+    environment:
+      POSTGRES_USER: coxa
+      POSTGRES_PASSWORD: coxa
+      POSTGRES_DB: coxa
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+      - "-c"
+      - "max_wal_senders=10"
+      - "-c"
+      - "max_replication_slots=10"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/shared/database/migrations.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U coxa"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - coxa-network
+
+  # Redis for Idempotency
+  redis:
+    image: redis:7-alpine
+    container_name: coxa-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - coxa-network
+
+  # Zookeeper (required by Kafka)
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: coxa-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - coxa-network
+
+  # Kafka Message Broker
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: coxa-kafka
+    depends_on:
+      zookeeper:
+        condition: service_started
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    networks:
+      - coxa-network
+
+  # Debezium Connect (CDC)
+  debezium:
+    image: debezium/connect:2.4
+    container_name: coxa-debezium
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: debezium-config
+      OFFSET_STORAGE_TOPIC: debezium-offsets
+      STATUS_STORAGE_TOPIC: debezium-status
+      CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      STATUS_STORAGE_REPLICATION_FACTOR: 1
+    ports:
+      - "8083:8083"
+    networks:
+      - coxa-network
+
+  # Prometheus Metrics Collection
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: coxa-prometheus
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - coxa-network
+
+  # Grafana Dashboards
+  grafana:
+    image: grafana/grafana:latest
+    container_name: coxa-grafana
+    depends_on:
+      - prometheus
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_ADMIN_USER: admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - coxa-network
+
+  # Habit Service
+  habit-service:
+    build:
+      context: ./backend
+      dockerfile: ./services/habit-service/Dockerfile
+    container_name: coxa-habit-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    environment:
+      DATABASE_URL: "user=coxa password=coxa dbname=coxa host=postgres port=5432 sslmode=disable"
+      KAFKA_BROKERS: "kafka:9092"
+    ports:
+      - "8001:8001"
+    networks:
+      - coxa-network
+
+  # Scheduler Service
+  scheduler-service:
+    build:
+      context: ./backend
+      dockerfile: ./services/scheduler-service/Dockerfile
+    container_name: coxa-scheduler-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "user=coxa password=coxa dbname=coxa host=postgres port=5432 sslmode=disable"
+      KAFKA_BROKERS: "kafka:9092"
+      REDIS_URL: "redis://redis:6379"
+    ports:
+      - "8002:8002"
+    networks:
+      - coxa-network
+
+  # Notification Service
+  notification-service:
+    build:
+      context: ./backend
+      dockerfile: ./services/notification-service/Dockerfile
+    container_name: coxa-notification-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "user=coxa password=coxa dbname=coxa host=postgres port=5432 sslmode=disable"
+      KAFKA_BROKERS: "kafka:9092"
+      REDIS_URL: "redis://redis:6379"
+    ports:
+      - "8003:8003"
+    networks:
+      - coxa-network
+
+  # Analytics Service
+  analytics-service:
+    build:
+      context: ./backend
+      dockerfile: ./services/analytics-service/Dockerfile
+    container_name: coxa-analytics-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "user=coxa password=coxa dbname=coxa host=postgres port=5432 sslmode=disable"
+      KAFKA_BROKERS: "kafka:9092"
+      REDIS_URL: "redis://redis:6379"
+    ports:
+      - "8004:8004"
+    networks:
+      - coxa-network
+
+  # Frontend React App
+  frontend:
+    build:
+      context: ./frontend/web-app
+      dockerfile: Dockerfile
+    container_name: coxa-frontend
+    depends_on:
+      - habit-service
+    ports:
+      - "5173:5173"
+    networks:
+      - coxa-network
+
+volumes:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  coxa-network:
+    driver: bridge
