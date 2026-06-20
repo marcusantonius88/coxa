@@ -1,4 +1,4 @@
-![Coxa Banner](docs/coxa-banner-dark.png)
+![Coxa Banner](docs/assets/coxa-banner-dark.png)
 
 # COXA (Care Orchestration & e**X**perience for Animals)
 
@@ -442,7 +442,98 @@ The name **COXA** comes from the author's dog 🐕
 (Coxinha, or just “Coxa”)
 
 ---
+# 🤖 AI-Assisted Development
 
+This project was built using modern AI-Assisted Software Development practices.
+
+| | |
+|---|---|
+| IDE/Agent | VSCode with GitHub Copilot |
+| Primary Model | Claude Haiku 4.5 |
+| Strategic Support | GitHub Copilot (GPT-based) |
+| Methodology | Event-Driven Development (EDD) |
+
+The development followed an event-driven approach, where the entire system architecture and patterns (EDA, Outbox Pattern, CDC with Debezium, Idempotency with Redis) were designed to be event-centric. AI was utilized to assist in architecture refinement, documentation generation, implementation planning, and code development—all under human review and validation.
+
+### 📋 Project Specifications
+
+The functionalities of COXA were planned and organized through comprehensive architecture and design documents located in the `/docs` folder. These documents include:
+
+- **ARCHITECTURE.md** - Core architectural patterns and design decisions:
+  - Event-Driven Architecture (EDA) principles
+  - Outbox Pattern implementation with CDC
+  - Idempotency strategy using Redis
+  - Complete medication flow timeline
+  - Failure scenarios and recovery mechanisms
+  
+- **PROJECT_STRUCTURE.md** - Real project structure and organization:
+  - Folder hierarchy and file purposes
+  - Service implementation pattern (single `main.go` per service)
+  - Shared infrastructure components
+  - How to extend the project with new services
+
+- **SETUP.md** - Detailed setup and configuration guide:
+  - Prerequisites and installation steps
+  - Local development environment
+  - Health checks and validation
+  - Troubleshooting common issues
+
+- **DEVELOPMENT.md** - Developer workflow and tools:
+  - Local service development
+  - Debugging techniques
+  - Kafka, PostgreSQL, and Redis operations
+  - Testing procedures
+
+- **TESTE_END_TO_END.md** - Comprehensive end-to-end testing:
+  - Step-by-step medication flow validation
+  - Integration point verification
+  - Metric collection in Prometheus
+  - Dashboard visualization in Grafana
+
+- **CONTRIBUTING.md** - Contribution guidelines:
+  - Code standards and best practices
+  - How to add new services
+  - Testing requirements
+  - Pull request process
+
+### 📚 Documentation
+
+**Recommended reading order for new developers:**
+
+1. **README.md** (this file) - *1-2 min*
+   - Understand the motivation and purpose of COXA
+
+2. **SETUP.md** - *5-10 min*
+   - Get the system running locally and verify health
+
+3. **ARCHITECTURE.md** - *15-20 min*
+   - Understand the architectural patterns and design decisions
+   - Study complete event flow timeline
+   - Review failure recovery mechanisms
+
+4. **PROJECT_STRUCTURE.md** - *10-15 min*
+   - Navigate the codebase structure
+   - Understand the implementation pattern
+   - Learn how to find relevant code
+
+5. **DEVELOPMENT.md** - *reference*
+   - Development tools and commands
+   - Debugging and logging procedures
+   - Local testing approaches
+
+6. **TESTE_END_TO_END.md** - *15 min*
+   - Validate system with practical tests
+   - Verify Prometheus metrics collection
+   - Explore Grafana dashboards
+
+7. **CONTRIBUTING.md** - *reference*
+   - Contribution guidelines
+   - How to add new services
+   - Code standards
+
+Each document builds upon the previous one, creating a comprehensive understanding of the system from conceptual architecture to practical implementation.
+
+---
 # 📄 License
 
 MIT

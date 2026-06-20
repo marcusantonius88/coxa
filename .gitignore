@@ -34,9 +34,10 @@ logs/
 # Docker
 .dockerignore
 
-# Markdown (except README)
+# Markdown (except README and docs)
 *.md
 !README.md
+!docs/*.md
 
 # System Files (Windows/WSL)
 *:Zone.Identifier
