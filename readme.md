@@ -11,7 +11,7 @@ COXA is an event-driven system designed to manage pet health through asynchronou
 
 ---
 
-# 🚀 Motivation
+## 🚀 Motivation
 
 Managing recurring pet medications (like deworming or flea treatments) can be error-prone.
 
@@ -26,9 +26,9 @@ COXA solves this by:
 
 ---
 
-# 🧠 Architecture Overview
+## 🧠 Architecture Overview
 
-## Event Flow
+### Event Flow
 
 ```mermaid
 graph TD
@@ -44,7 +44,7 @@ graph TD
 
 ---
 
-## High-Level Architecture
+### High-Level Architecture
 
 ```mermaid
 graph LR
@@ -74,7 +74,7 @@ graph LR
 
 ---
 
-# 🧩 Services
+## 🧩 Services
 
 ### 🟢 habit-service
 
@@ -138,7 +138,7 @@ Handles:
 
 ---
 
-# 🏗️ Monorepo Structure
+## 🏗️ Monorepo Structure
 
 ```bash
 /coxa
@@ -170,9 +170,9 @@ Handles:
 
 ---
 
-# ⚙️ Tech Stack
+## ⚙️ Tech Stack
 
-## Backend
+### Backend
 
 - Go (Golang)
     
@@ -185,7 +185,7 @@ Handles:
 - Debezium
     
 
-## Frontend
+### Frontend
 
 - React
     
@@ -194,7 +194,7 @@ Handles:
 - TailwindCSS
     
 
-## Observability
+### Observability
 
 - Prometheus
     
@@ -203,9 +203,9 @@ Handles:
 
 ---
 
-# 🧱 Architectural Patterns
+## 🧱 Architectural Patterns
 
-## Event-Driven Architecture (EDA)
+### Event-Driven Architecture (EDA)
 
 - asynchronous communication
     
@@ -214,14 +214,14 @@ Handles:
 - event-based workflows
     
 
-## Clean Architecture
+### Clean Architecture
 
 - domain is independent
     
 - business logic isolated
     
 
-## Hexagonal Architecture (Ports & Adapters)
+### Hexagonal Architecture (Ports & Adapters)
 
 - inbound adapters (HTTP, Kafka)
     
@@ -230,7 +230,7 @@ Handles:
 
 ---
 
-# 📦 Outbox Pattern
+## 📦 Outbox Pattern
 
 ```mermaid
 sequenceDiagram
@@ -248,9 +248,9 @@ sequenceDiagram
 
 ---
 
-# 📡 Event Examples
+## 📡 Event Examples
 
-## MedicationCreated
+### MedicationCreated
 
 ```json
 {
@@ -267,7 +267,7 @@ sequenceDiagram
 
 ---
 
-# 🔁 Idempotency
+## 🔁 Idempotency
 
 - Redis tracks processed events
     
@@ -278,11 +278,11 @@ sequenceDiagram
 
 ---
 
-# 📊 Observability
+## 📊 Observability
 
 COXA includes a full observability stack using Prometheus and Grafana.
 
-## Architecture
+### Architecture
 
 ```mermaid
 graph TD
@@ -293,7 +293,7 @@ graph TD
 
 ---
 
-## Metrics
+### Metrics
 
 Each service exposes a `/metrics` endpoint.
 
@@ -310,7 +310,7 @@ Examples:
 
 ---
 
-## Prometheus
+### Prometheus
 
 - Collects metrics via scraping
     
@@ -321,7 +321,7 @@ Examples:
 
 ---
 
-## Grafana
+### Grafana
 
 - Visualizes metrics
     
@@ -340,7 +340,7 @@ login: admin / admin
 
 ---
 
-## Tracing (Correlation ID)
+### Tracing (Correlation ID)
 
 All events include:
 
@@ -355,7 +355,7 @@ This allows tracking event flow across services.
 
 ---
 
-## Logging
+### Logging
 
 Structured logs include:
 
@@ -370,7 +370,7 @@ Structured logs include:
 
 ---
 
-# 🐳 Running Locally
+## 🐳 Running Locally
 
 ```bash
 docker compose up -d --build
@@ -378,7 +378,7 @@ docker compose up -d --build
 
 ---
 
-# 🚀 Roadmap
+## 🚀 Roadmap
 
 ### Phase 1
 
@@ -414,7 +414,7 @@ docker compose up -d --build
 
 ---
 
-# ⚖️ Trade-offs
+## ⚖️ Trade-offs
 
 ### Pros
 
@@ -436,13 +436,14 @@ docker compose up -d --build
 
 ---
 
-# 🐶 Fun Fact
+## 🐶 Fun Fact
 
 The name **COXA** comes from the author's dog 🐕  
 (Coxinha, or just “Coxa”)
 
 ---
-# 🤖 AI-Assisted Development
+
+## 🤖 AI-Assisted Development
 
 This project was built using modern AI-Assisted Software Development practices.
 
@@ -534,6 +535,7 @@ The functionalities of COXA were planned and organized through comprehensive arc
 Each document builds upon the previous one, creating a comprehensive understanding of the system from conceptual architecture to practical implementation.
 
 ---
-# 📄 License
+
+## 📄 License
 
 MIT
