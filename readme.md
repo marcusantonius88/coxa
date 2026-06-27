@@ -2,10 +2,7 @@
 
 # COXA (Care Orchestration & e**X**perience for Animals)
 
-![Go](https://img.shields.io/badge/Go-1.22-blue)  
-![Kafka](https://img.shields.io/badge/Kafka-Event%20Streaming-black)  
-![Architecture](https://img.shields.io/badge/Architecture-EDA%20%2B%20Hexagonal-green)  
-![Status](https://img.shields.io/badge/status-in%20progress-yellow)
+![Go](https://img.shields.io/badge/Go-1.22-blue?style=flat&labelColor=gray) ![Kafka](https://img.shields.io/badge/Kafka-Event%20Streaming-blue?style=flat&labelColor=gray) ![Architecture](https://img.shields.io/badge/Architecture-EDA%20%2B%20Hexagonal-blue?style=flat&labelColor=gray)
 
 COXA is an event-driven system designed to manage pet health through asynchronous events, scheduling, and intelligent notifications.
 
